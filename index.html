@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Christian Williams — Teaching Position Search</title>
+<style>
+  :root {
+    --bg: #faf9f5; --surface: #ffffff; --surface-2: #f1efe8;
+    --text: #1f1e1b; --text-2: #6b6a63; --text-3: #97958c;
+    --border: rgba(0,0,0,0.10);
+    --info-bg: #e6f1fb; --info-tx: #185fa5;
+    --ok-bg: #e1f5ee; --ok-tx: #0f6e56;
+    --warn-bg: #faeeda; --warn-tx: #854f0b;
+    --blue: #378add; --teal: #1d9e75; --gray: #888780; --purple: #534ab7;
+    --danger: #c0392b;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1f1e1b; --surface: #2a2925; --surface-2: #2f2e29;
+      --text: #f1efe8; --text-2: #b4b2a9; --text-3: #888780;
+      --border: rgba(255,255,255,0.12);
+      --info-bg: #0c447c; --info-tx: #b5d4f4;
+      --ok-bg: #085041; --ok-tx: #9fe1cb;
+      --warn-bg: #633806; --warn-tx: #fac775;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6; padding: 2rem 1rem;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; }
+  .head { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 1.5rem; }
+  h1 { font-size: 22px; font-weight: 600; margin: 0; }
+  .sub { font-size: 13px; color: var(--text-2); margin: 4px 0 0; }
+  .pill { font-size: 12px; padding: 5px 12px; border-radius: 8px; white-space: nowrap; }
+  .pill.info { background: var(--info-bg); color: var(--info-tx); }
+  .pill.ok { background: var(--ok-bg); color: var(--ok-tx); }
+  .pill.warn { background: var(--warn-bg); color: var(--warn-tx); }
+  .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px,1fr)); gap: 12px; margin-bottom: 1.5rem; }
+  .metric { background: var(--surface-2); border-radius: 8px; padding: 1rem; }
+  .metric .lab { font-size: 13px; color: var(--text-2); margin: 0; }
+  .metric .val { font-size: 26px; font-weight: 600; margin: 4px 0 0; }
+  .cols { display: grid; grid-template-columns: 1.3fr 1fr; gap: 16px; margin-bottom: 1.5rem; }
+  @media (max-width: 640px) { .cols { grid-template-columns: 1fr; } }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.25rem; }
+  .card h2 { font-size: 13px; color: var(--text-2); font-weight: 600; margin: 0 0 12px; }
+  .who { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .ava { width: 44px; height: 44px; border-radius: 50%; background: var(--info-bg); color: var(--info-tx); display: flex; align-items: center; justify-content: center; font-weight: 600; }
+  .who p { margin: 0; }
+  .who .nm { font-weight: 600; font-size: 15px; }
+  .who .lo { font-size: 13px; color: var(--text-2); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .kv td { padding: 5px 0; vertical-align: top; }
+  .kv td:first-child { color: var(--text-2); }
+  .kv td:last-child { text-align: right; }
+  .bar { height: 7px; background: var(--surface-2); border-radius: 4px; overflow: hidden; margin-bottom: 10px; }
+  .bar > div { height: 100%; }
+  .stage { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px; }
+  .row { display: flex; align-items: center; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--border); }
+  .row:last-child { border-bottom: none; }
+  .row .info-col { flex: 1; min-width: 0; }
+  .row .nm { font-size: 14px; font-weight: 600; margin: 0; }
+  .row .meta { font-size: 12px; color: var(--text-2); margin: 2px 0 0; word-break: break-word; }
+  .warm { font-size: 11px; color: var(--text-2); white-space: nowrap; }
+  .warm i { color: var(--danger); }
+  .foot { font-size: 12px; color: var(--text-3); margin-top: 1.5rem; text-align: center; }
+  .foot a { color: var(--info-tx); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <div>
+      <h1>Christian Williams — Teaching position search</h1>
+      <p class="sub">Bernard's warm-intro outreach across Georgia USG / TCSG institutions · <span id="asof"></span></p>
+    </div>
+    <span class="pill info">● Active</span>
+  </div>
+
+  <div class="metrics" id="metrics"></div>
+
+  <div class="cols">
+    <div class="card">
+      <h2>Candidate</h2>
+      <div class="who">
+        <div class="ava">CW</div>
+        <div>
+          <p class="nm">Christian Boyd Williams</p>
+          <p class="lo">Greensboro, GA</p>
+        </div>
+      </div>
+      <table class="kv">
+        <tr><td>MA History</td><td>U. of Alabama · in progress · 3.74</td></tr>
+        <tr><td>BA History</td><td>Magna Cum Laude · 3.69</td></tr>
+        <tr><td>Teaching</td><td>Graduate Teaching Assistant</td></tr>
+        <tr><td>Published</td><td>Crimson Historical Review, 2026</td></tr>
+        <tr><td>Email</td><td>cbwilliams555@outlook.com</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h2>Pipeline stage</h2>
+      <div id="pipeline"></div>
+      <p style="font-size:12px;color:var(--text-3);margin:12px 0 0;line-height:1.5;" id="pipeline-note"></p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Outreach contacts</h2>
+    <div id="contacts"></div>
+  </div>
+
+  <p class="foot">
+    Tracked in <a href="https://app.notion.com/p/dca2465c99f64ef6bbfb5b365a19a66f?v=68ab8eb1320041149a386623cddf4516" target="_blank" rel="noopener">Notion</a>.
+    To update this page, edit the <code>DATA</code> block near the bottom of <code>index.html</code>.
+  </p>
+</div>
+
+<script>
+  // ====================================================================
+  //  EDIT HERE to update the dashboard. Change "status" to one of:
+  //  "ready"  -> green "Ready to send"
+  //  "sent"   -> blue  "Sent"
+  //  "replied"-> purple "Replied"
+  //  "blocked"-> amber "Needs info"
+  // ====================================================================
+  const ASOF = "as of June 9, 2026";
+
+  const CONTACTS = [
+    { name: "Michael Shannon", inst: "University of North Georgia", email: "michael.shannon@ung.edu", warm: true, status: "ready" },
+    { name: "Dana Nichols", inst: "Abraham Baldwin Agricultural College", email: "dana.nichols@abac.edu", warm: true, status: "ready" },
+    { name: "Roger Tutterow", inst: "Kennesaw State · Coles College of Business", email: "rtuttero@kennesaw.edu", warm: true, status: "ready" },
+    { name: "Andrew Allison", inst: "Kennesaw State · Director of Government Relations", email: "aallis22@kennesaw.edu", warm: true, status: "ready" },
+    { name: "Casey Tanner", inst: "Kennesaw State · VP for Government Relations (former USG)", email: "ctanne41@kennesaw.edu", warm: true, status: "ready" },
+  ];
+  // ====================================================================
+
+  const STATUS = {
+    ready:   { label: "Ready to send", cls: "ok" },
+    sent:    { label: "Sent",          cls: "info" },
+    replied: { label: "Replied",       cls: "ok" },
+    blocked: { label: "Needs info",    cls: "warn" },
+  };
+
+  document.getElementById("asof").textContent = ASOF;
+
+  const count = (s) => CONTACTS.filter(c => c.status === s).length;
+  const institutions = new Set(CONTACTS.map(c => c.inst.split(" · ")[0])).size;
+  const metrics = [
+    { lab: "Outreach emails", val: CONTACTS.length },
+    { lab: "Institutions", val: institutions },
+    { lab: "Ready to send", val: count("ready") },
+    { lab: "Sent / replied", val: count("sent") + count("replied") },
+  ];
+  document.getElementById("metrics").innerHTML = metrics.map(m =>
+    `<div class="metric"><p class="lab">${m.lab}</p><p class="val">${m.val}</p></div>`).join("");
+
+  const total = CONTACTS.length;
+  const stages = [
+    { lab: "Drafted",       n: total,                           color: "var(--blue)" },
+    { lab: "Ready to send", n: count("ready"),                  color: "var(--teal)" },
+    { lab: "Sent",          n: count("sent") + count("replied"),color: "var(--gray)" },
+    { lab: "Replied",       n: count("replied"),                color: "var(--purple)" },
+  ];
+  document.getElementById("pipeline").innerHTML = stages.map(s =>
+    `<div class="stage"><span>${s.lab}</span><span style="font-weight:600">${s.n}</span></div>
+     <div class="bar"><div style="width:${total ? Math.round(s.n/total*100) : 0}%;background:${s.color}"></div></div>`).join("");
+
+  const blocked = count("blocked");
+  document.getElementById("pipeline-note").textContent =
+    blocked > 0 ? `${blocked} contact(s) blocked pending more info.` : "All contacts identified — campaign fully unblocked.";
+
+  document.getElementById("contacts").innerHTML = CONTACTS.map(c => {
+    const st = STATUS[c.status] || STATUS.ready;
+    return `<div class="row">
+      <div class="info-col">
+        <p class="nm">${c.name}</p>
+        <p class="meta">${c.inst} · ${c.email}</p>
+      </div>
+      ${c.warm ? '<span class="warm"><i>●</i> Warm</span>' : ''}
+      <span class="pill ${st.cls}">${st.label}</span>
+    </div>`;
+  }).join("");
+</script>
+</body>
+</html>
