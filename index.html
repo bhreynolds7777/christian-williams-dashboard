@@ -12,8 +12,9 @@
     --info-bg: #e6f1fb; --info-tx: #185fa5;
     --ok-bg: #e1f5ee; --ok-tx: #0f6e56;
     --warn-bg: #faeeda; --warn-tx: #854f0b;
+    --purple-bg: #eeedfe; --purple-tx: #3c3489;
     --blue: #378add; --teal: #1d9e75; --gray: #888780; --purple: #534ab7;
-    --danger: #c0392b;
+    --danger: #c0392b; --accent: #185fa5;
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -23,6 +24,8 @@
       --info-bg: #0c447c; --info-tx: #b5d4f4;
       --ok-bg: #085041; --ok-tx: #9fe1cb;
       --warn-bg: #633806; --warn-tx: #fac775;
+      --purple-bg: #3c3489; --purple-tx: #cecbf6;
+      --accent: #85b7eb;
     }
   }
   * { box-sizing: border-box; }
@@ -32,13 +35,25 @@
     line-height: 1.6; padding: 2rem 1rem;
   }
   .wrap { max-width: 880px; margin: 0 auto; }
-  .head { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 1.5rem; }
+  .head { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 1rem; }
   h1 { font-size: 22px; font-weight: 600; margin: 0; }
   .sub { font-size: 13px; color: var(--text-2); margin: 4px 0 0; }
-  .pill { font-size: 12px; padding: 5px 12px; border-radius: 8px; white-space: nowrap; }
+  .toolbar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.5rem; align-items: center; }
+  button.btn {
+    font: inherit; font-size: 13px; padding: 7px 14px; border-radius: 8px;
+    border: 1px solid var(--border); background: var(--surface); color: var(--text);
+    cursor: pointer;
+  }
+  button.btn:hover { background: var(--surface-2); }
+  button.btn.primary { background: var(--accent); color: #fff; border-color: transparent; }
+  button.btn.primary:hover { filter: brightness(0.95); }
+  button.btn.danger { color: var(--danger); }
+  .edit-hint { font-size: 12px; color: var(--text-3); }
+  .pill { font-size: 12px; padding: 5px 12px; border-radius: 8px; white-space: nowrap; display: inline-block; }
   .pill.info { background: var(--info-bg); color: var(--info-tx); }
   .pill.ok { background: var(--ok-bg); color: var(--ok-tx); }
   .pill.warn { background: var(--warn-bg); color: var(--warn-tx); }
+  .pill.replied { background: var(--purple-bg); color: var(--purple-tx); }
   .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px,1fr)); gap: 12px; margin-bottom: 1.5rem; }
   .metric { background: var(--surface-2); border-radius: 8px; padding: 1rem; }
   .metric .lab { font-size: 13px; color: var(--text-2); margin: 0; }
@@ -65,9 +80,18 @@
   .row .nm { font-size: 14px; font-weight: 600; margin: 0; }
   .row .meta { font-size: 12px; color: var(--text-2); margin: 2px 0 0; word-break: break-word; }
   .warm { font-size: 11px; color: var(--text-2); white-space: nowrap; }
-  .warm i { color: var(--danger); }
+  .warm i { color: var(--danger); font-style: normal; }
+  input.f, select.f {
+    font: inherit; font-size: 13px; padding: 5px 8px; border-radius: 6px;
+    border: 1px solid var(--border); background: var(--bg); color: var(--text); width: 100%;
+  }
+  .editrow { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .editrow .full { grid-column: 1 / -1; }
+  .editrow .controls { grid-column: 1 / -1; display: flex; gap: 8px; align-items: center; }
   .foot { font-size: 12px; color: var(--text-3); margin-top: 1.5rem; text-align: center; }
   .foot a { color: var(--info-tx); }
+  .hidden { display: none !important; }
+  .banner { background: var(--info-bg); color: var(--info-tx); font-size: 13px; padding: 10px 14px; border-radius: 8px; margin-bottom: 1rem; display: none; }
 </style>
 </head>
 <body>
@@ -75,9 +99,19 @@
   <div class="head">
     <div>
       <h1>Christian Williams — Teaching position search</h1>
-      <p class="sub">Bernard's warm-intro outreach across Georgia USG / TCSG institutions · <span id="asof"></span></p>
+      <p class="sub">Warm-intro outreach across Georgia USG / TCSG institutions · <span id="asof"></span></p>
     </div>
     <span class="pill info">● Active</span>
+  </div>
+
+  <div id="banner" class="banner"></div>
+
+  <div class="toolbar">
+    <button class="btn primary" id="editToggle" onclick="toggleEdit()">Edit dashboard</button>
+    <button class="btn hidden" id="addBtn" onclick="addContact()">+ Add contact</button>
+    <button class="btn hidden" id="publishBtn" onclick="publish()">Publish to everyone</button>
+    <button class="btn danger hidden" id="resetBtn" onclick="resetAll()">Reset to original</button>
+    <span class="edit-hint hidden" id="editHint">Changes save in your browser automatically. Click “Publish” to share them with everyone.</span>
   </div>
 
   <div class="metrics" id="metrics"></div>
@@ -114,75 +148,150 @@
 
   <p class="foot">
     Tracked in <a href="https://app.notion.com/p/dca2465c99f64ef6bbfb5b365a19a66f?v=68ab8eb1320041149a386623cddf4516" target="_blank" rel="noopener">Notion</a>.
-    To update this page, edit the <code>DATA</code> block near the bottom of <code>index.html</code>.
   </p>
 </div>
 
 <script>
-  // ====================================================================
-  //  EDIT HERE to update the dashboard. Change "status" to one of:
-  //  "ready"  -> green "Ready to send"
-  //  "sent"   -> blue  "Sent"
-  //  "replied"-> purple "Replied"
-  //  "blocked"-> amber "Needs info"
-  // ====================================================================
-  const ASOF = "as of June 9, 2026";
-
-  const CONTACTS = [
-    { name: "Michael Shannon", inst: "University of North Georgia", email: "michael.shannon@ung.edu", warm: true, status: "ready" },
-    { name: "Dana Nichols", inst: "Abraham Baldwin Agricultural College", email: "dana.nichols@abac.edu", warm: true, status: "ready" },
-    { name: "Roger Tutterow", inst: "Kennesaw State · Coles College of Business", email: "rtuttero@kennesaw.edu", warm: true, status: "ready" },
-    { name: "Andrew Allison", inst: "Kennesaw State · Director of Government Relations", email: "aallis22@kennesaw.edu", warm: true, status: "ready" },
-    { name: "Casey Tanner", inst: "Kennesaw State · VP for Government Relations (former USG)", email: "ctanne41@kennesaw.edu", warm: true, status: "ready" },
-  ];
-  // ====================================================================
+  // ===== Original data (the published default everyone sees) =====
+  const DEFAULTS = {
+    asof: "as of June 9, 2026",
+    contacts: [
+      { name: "Michael Shannon", inst: "University of North Georgia", email: "michael.shannon@ung.edu", warm: true, status: "ready" },
+      { name: "Dana Nichols", inst: "Abraham Baldwin Agricultural College", email: "dana.nichols@abac.edu", warm: true, status: "ready" },
+      { name: "Roger Tutterow", inst: "Kennesaw State · Coles College of Business", email: "rtuttero@kennesaw.edu", warm: true, status: "ready" },
+      { name: "Andrew Allison", inst: "Kennesaw State · Director of Government Relations", email: "aallis22@kennesaw.edu", warm: true, status: "ready" },
+      { name: "Casey Tanner", inst: "Kennesaw State · VP for Government Relations (former USG)", email: "ctanne41@kennesaw.edu", warm: true, status: "ready" },
+    ]
+  };
 
   const STATUS = {
     ready:   { label: "Ready to send", cls: "ok" },
     sent:    { label: "Sent",          cls: "info" },
-    replied: { label: "Replied",       cls: "ok" },
+    replied: { label: "Replied",       cls: "replied" },
     blocked: { label: "Needs info",    cls: "warn" },
   };
+  const KEY = "cw-dashboard-v2";
 
-  document.getElementById("asof").textContent = ASOF;
+  let state = load();
+  let editing = false;
 
-  const count = (s) => CONTACTS.filter(c => c.status === s).length;
-  const institutions = new Set(CONTACTS.map(c => c.inst.split(" · ")[0])).size;
-  const metrics = [
-    { lab: "Outreach emails", val: CONTACTS.length },
-    { lab: "Institutions", val: institutions },
-    { lab: "Ready to send", val: count("ready") },
-    { lab: "Sent / replied", val: count("sent") + count("replied") },
-  ];
-  document.getElementById("metrics").innerHTML = metrics.map(m =>
-    `<div class="metric"><p class="lab">${m.lab}</p><p class="val">${m.val}</p></div>`).join("");
+  function load() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(KEY));
+      if (saved && Array.isArray(saved.contacts)) return saved;
+    } catch (e) {}
+    return JSON.parse(JSON.stringify(DEFAULTS));
+  }
+  function save() {
+    state.updated = new Date().toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" });
+    localStorage.setItem(KEY, JSON.stringify(state));
+  }
 
-  const total = CONTACTS.length;
-  const stages = [
-    { lab: "Drafted",       n: total,                           color: "var(--blue)" },
-    { lab: "Ready to send", n: count("ready"),                  color: "var(--teal)" },
-    { lab: "Sent",          n: count("sent") + count("replied"),color: "var(--gray)" },
-    { lab: "Replied",       n: count("replied"),                color: "var(--purple)" },
-  ];
-  document.getElementById("pipeline").innerHTML = stages.map(s =>
-    `<div class="stage"><span>${s.lab}</span><span style="font-weight:600">${s.n}</span></div>
-     <div class="bar"><div style="width:${total ? Math.round(s.n/total*100) : 0}%;background:${s.color}"></div></div>`).join("");
+  function render() {
+    document.getElementById("asof").textContent = state.updated ? ("your edits saved " + state.updated) : state.asof;
 
-  const blocked = count("blocked");
-  document.getElementById("pipeline-note").textContent =
-    blocked > 0 ? `${blocked} contact(s) blocked pending more info.` : "All contacts identified — campaign fully unblocked.";
+    const banner = document.getElementById("banner");
+    if (localStorage.getItem(KEY)) {
+      banner.style.display = "block";
+      banner.textContent = "You're viewing your own saved edits. They live only in this browser until you click “Publish to everyone.”";
+    } else { banner.style.display = "none"; }
 
-  document.getElementById("contacts").innerHTML = CONTACTS.map(c => {
-    const st = STATUS[c.status] || STATUS.ready;
-    return `<div class="row">
-      <div class="info-col">
-        <p class="nm">${c.name}</p>
-        <p class="meta">${c.inst} · ${c.email}</p>
+    const c = state.contacts;
+    const cnt = (s) => c.filter(x => x.status === s).length;
+    const institutions = new Set(c.map(x => x.inst.split(" · ")[0])).size;
+    const metrics = [
+      { lab: "Outreach emails", val: c.length },
+      { lab: "Institutions", val: institutions },
+      { lab: "Ready to send", val: cnt("ready") },
+      { lab: "Sent / replied", val: cnt("sent") + cnt("replied") },
+    ];
+    document.getElementById("metrics").innerHTML = metrics.map(m =>
+      `<div class="metric"><p class="lab">${esc(m.lab)}</p><p class="val">${m.val}</p></div>`).join("");
+
+    const total = c.length || 1;
+    const stages = [
+      { lab: "Drafted", n: c.length, color: "var(--blue)" },
+      { lab: "Ready to send", n: cnt("ready"), color: "var(--teal)" },
+      { lab: "Sent", n: cnt("sent") + cnt("replied"), color: "var(--gray)" },
+      { lab: "Replied", n: cnt("replied"), color: "var(--purple)" },
+    ];
+    document.getElementById("pipeline").innerHTML = stages.map(s =>
+      `<div class="stage"><span>${s.lab}</span><span style="font-weight:600">${s.n}</span></div>
+       <div class="bar"><div style="width:${Math.round(s.n/total*100)}%;background:${s.color}"></div></div>`).join("");
+
+    const blocked = cnt("blocked");
+    document.getElementById("pipeline-note").textContent =
+      blocked > 0 ? `${blocked} contact(s) blocked pending more info.` : "All contacts identified — campaign fully unblocked.";
+
+    document.getElementById("contacts").innerHTML = editing ? editView(c) : readView(c);
+  }
+
+  function readView(c) {
+    return c.map(x => {
+      const st = STATUS[x.status] || STATUS.ready;
+      return `<div class="row">
+        <div class="info-col">
+          <p class="nm">${esc(x.name)}</p>
+          <p class="meta">${esc(x.inst)} · ${esc(x.email)}</p>
+        </div>
+        ${x.warm ? '<span class="warm"><i>●</i> Warm</span>' : ''}
+        <span class="pill ${st.cls}">${st.label}</span>
+      </div>`;
+    }).join("");
+  }
+
+  function editView(c) {
+    const opts = (sel) => Object.entries(STATUS).map(([k, v]) =>
+      `<option value="${k}" ${k === sel ? "selected" : ""}>${v.label}</option>`).join("");
+    return c.map((x, i) => `<div class="editrow">
+      <input class="f full" value="${esc(x.name)}" placeholder="Name" oninput="upd(${i},'name',this.value)">
+      <input class="f full" value="${esc(x.inst)}" placeholder="Institution / role" oninput="upd(${i},'inst',this.value)">
+      <input class="f" value="${esc(x.email)}" placeholder="Email" oninput="upd(${i},'email',this.value)">
+      <select class="f" onchange="upd(${i},'status',this.value)">${opts(x.status)}</select>
+      <div class="controls">
+        <label style="font-size:13px;color:var(--text-2);"><input type="checkbox" ${x.warm ? "checked" : ""} onchange="upd(${i},'warm',this.checked)"> Warm contact</label>
+        <button class="btn danger" style="margin-left:auto" onclick="removeContact(${i})">Remove</button>
       </div>
-      ${c.warm ? '<span class="warm"><i>●</i> Warm</span>' : ''}
-      <span class="pill ${st.cls}">${st.label}</span>
-    </div>`;
-  }).join("");
+    </div>`).join("");
+  }
+
+  function upd(i, field, val) { state.contacts[i][field] = val; save(); if (field !== "name" && field !== "inst" && field !== "email") render(); else renderMetricsOnly(); }
+  function renderMetricsOnly() { const ed = editing; editing = false; render(); editing = ed; document.getElementById("contacts").innerHTML = editView(state.contacts); }
+
+  function addContact() {
+    state.contacts.push({ name: "", inst: "", email: "", warm: false, status: "ready" });
+    save(); render();
+  }
+  function removeContact(i) { state.contacts.splice(i, 1); save(); render(); }
+
+  function toggleEdit() {
+    editing = !editing;
+    document.getElementById("editToggle").textContent = editing ? "Done editing" : "Edit dashboard";
+    document.getElementById("editToggle").classList.toggle("primary", !editing);
+    ["addBtn", "publishBtn", "resetBtn", "editHint"].forEach(id => document.getElementById(id).classList.toggle("hidden", !editing));
+    if (!editing) save();
+    render();
+  }
+
+  function resetAll() {
+    if (!confirm("Discard your edits and restore the original published version?")) return;
+    localStorage.removeItem(KEY);
+    state = JSON.parse(JSON.stringify(DEFAULTS));
+    render();
+  }
+
+  function publish() {
+    const data = JSON.stringify(state.contacts, null, 2);
+    navigator.clipboard.writeText(data).then(() => {
+      alert("Copied your updated contacts to the clipboard.\n\nTo make these changes visible to everyone with the link:\nPaste it to Claude and say \"publish my changes\" — or edit index.html on GitHub.");
+    }, () => {
+      prompt("Copy this, paste it to Claude, and say \"publish my changes\":", data);
+    });
+  }
+
+  function esc(s) { return String(s).replace(/[&<>"]/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[m])); }
+
+  render();
 </script>
 </body>
 </html>
