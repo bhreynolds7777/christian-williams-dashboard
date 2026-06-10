@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Christian Williams — Teaching Position Search</title>
+<title>Christian Williams — Georgia History Teaching Search</title>
 <style>
   :root {
     --bg: #faf9f5; --surface: #ffffff; --surface-2: #f1efe8;
@@ -12,9 +12,11 @@
     --info-bg: #e6f1fb; --info-tx: #185fa5;
     --ok-bg: #e1f5ee; --ok-tx: #0f6e56;
     --warn-bg: #faeeda; --warn-tx: #854f0b;
+    --red-bg: #fcebeb; --red-tx: #a32d2d;
     --purple-bg: #eeedfe; --purple-tx: #3c3489;
-    --blue: #378add; --teal: #1d9e75; --gray: #888780; --purple: #534ab7;
-    --danger: #c0392b; --accent: #185fa5;
+    --gray-bg: #f1efe8; --gray-tx: #5f5e5a;
+    --blue: #378add; --teal: #1d9e75; --amber: #ba7517; --gray: #888780; --red: #c0392b;
+    --accent: #185fa5;
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -24,7 +26,9 @@
       --info-bg: #0c447c; --info-tx: #b5d4f4;
       --ok-bg: #085041; --ok-tx: #9fe1cb;
       --warn-bg: #633806; --warn-tx: #fac775;
+      --red-bg: #501313; --red-tx: #f09595;
       --purple-bg: #3c3489; --purple-tx: #cecbf6;
+      --gray-bg: #3a3934; --gray-tx: #d3d1c7;
       --accent: #85b7eb;
     }
   }
@@ -34,81 +38,78 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     line-height: 1.6; padding: 2rem 1rem;
   }
-  .wrap { max-width: 880px; margin: 0 auto; }
+  .wrap { max-width: 920px; margin: 0 auto; }
   .head { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 1rem; }
   h1 { font-size: 22px; font-weight: 600; margin: 0; }
   .sub { font-size: 13px; color: var(--text-2); margin: 4px 0 0; }
   .toolbar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.5rem; align-items: center; }
-  button.btn {
-    font: inherit; font-size: 13px; padding: 7px 14px; border-radius: 8px;
-    border: 1px solid var(--border); background: var(--surface); color: var(--text);
-    cursor: pointer;
-  }
+  button.btn { font: inherit; font-size: 13px; padding: 7px 14px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text); cursor: pointer; }
   button.btn:hover { background: var(--surface-2); }
   button.btn.primary { background: var(--accent); color: #fff; border-color: transparent; }
-  button.btn.primary:hover { filter: brightness(0.95); }
-  button.btn.danger { color: var(--danger); }
+  button.btn.danger { color: var(--red); }
   .edit-hint { font-size: 12px; color: var(--text-3); }
-  .pill { font-size: 12px; padding: 5px 12px; border-radius: 8px; white-space: nowrap; display: inline-block; }
-  .pill.info { background: var(--info-bg); color: var(--info-tx); }
-  .pill.ok { background: var(--ok-bg); color: var(--ok-tx); }
-  .pill.warn { background: var(--warn-bg); color: var(--warn-tx); }
-  .pill.replied { background: var(--purple-bg); color: var(--purple-tx); }
-  .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px,1fr)); gap: 12px; margin-bottom: 1.5rem; }
+  .pill { font-size: 12px; padding: 4px 10px; border-radius: 8px; white-space: nowrap; display: inline-block; }
+  .b-open { background: var(--ok-bg); color: var(--ok-tx); }
+  .b-filled { background: var(--warn-bg); color: var(--warn-tx); }
+  .b-expired { background: var(--red-bg); color: var(--red-tx); }
+  .b-none { background: var(--gray-bg); color: var(--gray-tx); }
+  .o-sent { background: var(--info-bg); color: var(--info-tx); }
+  .o-drafted { background: var(--purple-bg); color: var(--purple-tx); }
+  .o-identified { background: var(--warn-bg); color: var(--warn-tx); }
+  .o-nostart { background: var(--gray-bg); color: var(--gray-tx); }
+  .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px,1fr)); gap: 12px; margin-bottom: 1.5rem; }
   .metric { background: var(--surface-2); border-radius: 8px; padding: 1rem; }
   .metric .lab { font-size: 13px; color: var(--text-2); margin: 0; }
   .metric .val { font-size: 26px; font-weight: 600; margin: 4px 0 0; }
-  .cols { display: grid; grid-template-columns: 1.3fr 1fr; gap: 16px; margin-bottom: 1.5rem; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 1.5rem; }
   @media (max-width: 640px) { .cols { grid-template-columns: 1fr; } }
   .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.25rem; }
   .card h2 { font-size: 13px; color: var(--text-2); font-weight: 600; margin: 0 0 12px; }
-  .who { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
-  .ava { width: 44px; height: 44px; border-radius: 50%; background: var(--info-bg); color: var(--info-tx); display: flex; align-items: center; justify-content: center; font-weight: 600; }
+  .who { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .ava { width: 42px; height: 42px; border-radius: 50%; background: var(--info-bg); color: var(--info-tx); display: flex; align-items: center; justify-content: center; font-weight: 600; }
   .who p { margin: 0; }
   .who .nm { font-weight: 600; font-size: 15px; }
   .who .lo { font-size: 13px; color: var(--text-2); }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  .kv td { padding: 5px 0; vertical-align: top; }
+  table.kv { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .kv td { padding: 4px 0; vertical-align: top; }
   .kv td:first-child { color: var(--text-2); }
   .kv td:last-child { text-align: right; }
+  .stage { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px; }
   .bar { height: 7px; background: var(--surface-2); border-radius: 4px; overflow: hidden; margin-bottom: 10px; }
   .bar > div { height: 100%; }
-  .stage { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px; }
-  .row { display: flex; align-items: center; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--border); }
+  .row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }
   .row:last-child { border-bottom: none; }
   .row .info-col { flex: 1; min-width: 0; }
   .row .nm { font-size: 14px; font-weight: 600; margin: 0; }
+  .row .nm a { color: var(--accent); text-decoration: none; }
   .row .meta { font-size: 12px; color: var(--text-2); margin: 2px 0 0; word-break: break-word; }
-  .warm { font-size: 11px; color: var(--text-2); white-space: nowrap; }
-  .warm i { color: var(--danger); font-style: normal; }
-  input.f, select.f {
-    font: inherit; font-size: 13px; padding: 5px 8px; border-radius: 6px;
-    border: 1px solid var(--border); background: var(--bg); color: var(--text); width: 100%;
-  }
+  .badges { display: flex; flex-direction: column; gap: 4px; align-items: flex-end; }
+  input.f, select.f { font: inherit; font-size: 13px; padding: 5px 8px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg); color: var(--text); width: 100%; }
   .editrow { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 12px 0; border-bottom: 1px solid var(--border); }
-  .editrow .full { grid-column: 1 / -1; }
-  .editrow .controls { grid-column: 1 / -1; display: flex; gap: 8px; align-items: center; }
+  .editrow .full { grid-column: 1 / -1; font-weight: 600; }
   .foot { font-size: 12px; color: var(--text-3); margin-top: 1.5rem; text-align: center; }
   .foot a { color: var(--info-tx); }
   .hidden { display: none !important; }
   .banner { background: var(--info-bg); color: var(--info-tx); font-size: 13px; padding: 10px 14px; border-radius: 8px; margin-bottom: 1rem; display: none; }
+  .legend { display: flex; flex-wrap: wrap; gap: 12px; font-size: 12px; color: var(--text-2); margin: 4px 0 14px; }
+  .legend span { display: inline-flex; align-items: center; gap: 5px; }
+  .dot { width: 9px; height: 9px; border-radius: 3px; display: inline-block; }
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="head">
     <div>
-      <h1>Christian Williams — Teaching position search</h1>
-      <p class="sub">Warm-intro outreach across Georgia USG / TCSG institutions · <span id="asof"></span></p>
+      <h1>Christian Williams — Georgia history teaching search</h1>
+      <p class="sub">Bernard's outreach across the Georgia USG &amp; technical college systems · <span id="asof"></span></p>
     </div>
-    <span class="pill info">● Active</span>
+    <span class="pill o-sent">● Active</span>
   </div>
 
   <div id="banner" class="banner"></div>
 
   <div class="toolbar">
     <button class="btn primary" id="editToggle" onclick="toggleEdit()">Edit dashboard</button>
-    <button class="btn hidden" id="addBtn" onclick="addContact()">+ Add contact</button>
     <button class="btn hidden" id="publishBtn" onclick="publish()">Publish to everyone</button>
     <button class="btn danger hidden" id="resetBtn" onclick="resetAll()">Reset to original</button>
     <span class="edit-hint hidden" id="editHint">Changes save in your browser automatically. Click “Publish” to share them with everyone.</span>
@@ -123,63 +124,100 @@
         <div class="ava">CW</div>
         <div>
           <p class="nm">Christian Boyd Williams</p>
-          <p class="lo">Greensboro, GA</p>
+          <p class="lo">Greensboro, GA · MA History, U. of Alabama</p>
         </div>
       </div>
       <table class="kv">
-        <tr><td>MA History</td><td>U. of Alabama · in progress · 3.74</td></tr>
-        <tr><td>BA History</td><td>Magna Cum Laude · 3.69</td></tr>
-        <tr><td>Teaching</td><td>Graduate Teaching Assistant</td></tr>
+        <tr><td>Education</td><td>MA History (3.74) · BA Magna Cum Laude (3.69)</td></tr>
+        <tr><td>Teaching</td><td>Graduate Teaching Assistant, Alabama</td></tr>
         <tr><td>Published</td><td>Crimson Historical Review, 2026</td></tr>
         <tr><td>Email</td><td>cbwilliams555@outlook.com</td></tr>
       </table>
     </div>
     <div class="card">
-      <h2>Pipeline stage</h2>
+      <h2>Positions by status</h2>
       <div id="pipeline"></div>
       <p style="font-size:12px;color:var(--text-3);margin:12px 0 0;line-height:1.5;" id="pipeline-note"></p>
     </div>
   </div>
 
   <div class="card">
-    <h2>Outreach contacts</h2>
-    <div id="contacts"></div>
+    <h2>Schools &amp; positions</h2>
+    <div class="legend">
+      <span><span class="dot" style="background:var(--teal)"></span>Open</span>
+      <span><span class="dot" style="background:var(--amber)"></span>Likely filled</span>
+      <span><span class="dot" style="background:var(--red)"></span>Expired</span>
+      <span><span class="dot" style="background:var(--gray)"></span>No position</span>
+    </div>
+    <div id="schools"></div>
   </div>
 
   <p class="foot">
-    Tracked in <a href="https://app.notion.com/p/dca2465c99f64ef6bbfb5b365a19a66f?v=68ab8eb1320041149a386623cddf4516" target="_blank" rel="noopener">Notion</a>.
+    Mirrors the <a href="https://app.notion.com/p/dca2465c99f64ef6bbfb5b365a19a66f?v=68ab8eb1320041149a386623cddf4516" target="_blank" rel="noopener">Notion “Schools &amp; Positions” tracker</a>.
   </p>
 </div>
 
 <script>
-  // ===== Original data (the published default everyone sees) =====
+  // ====================================================================
+  //  EDIT HERE (or use the “Edit dashboard” button on the page).
+  //  job: "open" | "filled" | "expired" | "none"
+  //  reach (outreach): "sent" | "drafted" | "identified" | "nostart"
+  // ====================================================================
   const DEFAULTS = {
-    asof: "as of June 9, 2026",
-    contacts: [
-      { name: "Michael Shannon", inst: "University of North Georgia", email: "michael.shannon@ung.edu", warm: true, status: "ready" },
-      { name: "Dana Nichols", inst: "Abraham Baldwin Agricultural College", email: "dana.nichols@abac.edu", warm: true, status: "ready" },
-      { name: "Roger Tutterow", inst: "Kennesaw State · Coles College of Business", email: "rtuttero@kennesaw.edu", warm: true, status: "ready" },
-      { name: "Andrew Allison", inst: "Kennesaw State · Director of Government Relations", email: "aallis22@kennesaw.edu", warm: true, status: "ready" },
-      { name: "Casey Tanner", inst: "Kennesaw State · VP for Government Relations (former USG)", email: "ctanne41@kennesaw.edu", warm: true, status: "ready" },
+    asof: "as of June 10, 2026",
+    schools: [
+      { school: "University of North Georgia", abbr: "UNG", job: "open", reach: "drafted",
+        contact: "Michael Shannon (+ Sarah Harper, Glennis Barnes)", req: "MA + 18 grad hrs in History",
+        link: "https://www.higheredjobs.com/faculty/details.cfm?JobCode=178704294" },
+      { school: "Abraham Baldwin Agricultural College", abbr: "ABAC", job: "open", reach: "drafted",
+        contact: "Ryan Hogan (primary) · Dana Nichols (warm)", req: "MA + 18 grad hrs, History/Pol. Sci.",
+        link: "https://careers.insidehighered.com/job/2139523/" },
+      { school: "Kennesaw State University", abbr: "KSU", job: "filled", reach: "drafted",
+        contact: "Casey Tanner (VP Ext. Affairs) · Roger Tutterow", req: "PhD (TT); MA + 18 (adjunct)",
+        link: "https://careers.insidehighered.com/jobs?q=history&institution=Kennesaw+State+University" },
+      { school: "Middle Georgia State University", abbr: "MGA", job: "open", reach: "sent",
+        contact: "Merritt Wall (Gov. & Community Relations)", req: "MA + 18 grad hrs in History",
+        link: "https://careers.insidehighered.com/jobs?q=history&institution=Middle+Georgia+State+University" },
+      { school: "Georgia Gwinnett College", abbr: "GGC", job: "open", reach: "drafted",
+        contact: "Don Balfour (GGC founding legislator)", req: "Terminal degree (TT); MA + 18 (part-time)",
+        link: "https://www.higheredjobs.com/details.cfm?JobCode=179278875" },
+      { school: "Georgia Highlands College", abbr: "GHC", job: "open", reach: "identified",
+        contact: "A. Domond (Cobb Chamber contact)", req: "MA + 18 grad hrs in History",
+        link: "https://careers.insidehighered.com/jobs?q=history&institution=Georgia+Highlands+College" },
+      { school: "University of West Georgia", abbr: "UWG", job: "open", reach: "nostart",
+        contact: "—", req: "PhD in History required (tenure-track)",
+        link: "https://careers.insidehighered.com/jobs?q=history&institution=University+of+West+Georgia" },
+      { school: "Dalton State College", abbr: "DSC", job: "open", reach: "nostart",
+        contact: "—", req: "MA minimum; PhD preferred (full-time)",
+        link: "https://www.higheredjobs.com/faculty/details.cfm?JobCode=179314777" },
+      { school: "Valdosta State University", abbr: "VSU", job: "expired", reach: "nostart",
+        contact: "—", req: "MA + 18 grad hrs in History",
+        link: "https://careers.insidehighered.com/jobs?q=history&institution=Valdosta+State+University" },
+      { school: "Wiregrass Georgia Technical College", abbr: "WGTC", job: "none", reach: "nostart",
+        contact: "—", req: "N/A — History is general-ed only", link: "" },
     ]
   };
+  // ====================================================================
 
-  const STATUS = {
-    ready:   { label: "Ready to send", cls: "ok" },
-    sent:    { label: "Sent",          cls: "info" },
-    replied: { label: "Replied",       cls: "replied" },
-    blocked: { label: "Needs info",    cls: "warn" },
+  const JOB = {
+    open:    { label: "Open",          cls: "b-open" },
+    filled:  { label: "Likely filled", cls: "b-filled" },
+    expired: { label: "Expired",       cls: "b-expired" },
+    none:    { label: "No position",   cls: "b-none" },
   };
-  const KEY = "cw-dashboard-v2";
+  const REACH = {
+    sent:       { label: "Emailed",       cls: "o-sent" },
+    drafted:    { label: "Draft ready",   cls: "o-drafted" },
+    identified: { label: "Contact found", cls: "o-identified" },
+    nostart:    { label: "Not started",   cls: "o-nostart" },
+  };
+  const KEY = "cw-dashboard-v3";
 
   let state = load();
   let editing = false;
 
   function load() {
-    try {
-      const saved = JSON.parse(localStorage.getItem(KEY));
-      if (saved && Array.isArray(saved.contacts)) return saved;
-    } catch (e) {}
+    try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && Array.isArray(s.schools)) return s; } catch (e) {}
     return JSON.parse(JSON.stringify(DEFAULTS));
   }
   function save() {
@@ -196,97 +234,89 @@
       banner.textContent = "You're viewing your own saved edits. They live only in this browser until you click “Publish to everyone.”";
     } else { banner.style.display = "none"; }
 
-    const c = state.contacts;
-    const cnt = (s) => c.filter(x => x.status === s).length;
-    const institutions = new Set(c.map(x => x.inst.split(" · ")[0])).size;
+    const s = state.schools;
+    const jc = (k) => s.filter(x => x.job === k).length;
     const metrics = [
-      { lab: "Outreach emails", val: c.length },
-      { lab: "Institutions", val: institutions },
-      { lab: "Ready to send", val: cnt("ready") },
-      { lab: "Sent / replied", val: cnt("sent") + cnt("replied") },
+      { lab: "Schools tracked", val: s.length },
+      { lab: "Open positions", val: jc("open") },
+      { lab: "Emailed / drafted", val: s.filter(x => x.reach === "sent" || x.reach === "drafted").length },
+      { lab: "Contacts identified", val: s.filter(x => x.contact && x.contact !== "—").length },
     ];
     document.getElementById("metrics").innerHTML = metrics.map(m =>
       `<div class="metric"><p class="lab">${esc(m.lab)}</p><p class="val">${m.val}</p></div>`).join("");
 
-    const total = c.length || 1;
+    const total = s.length || 1;
     const stages = [
-      { lab: "Drafted", n: c.length, color: "var(--blue)" },
-      { lab: "Ready to send", n: cnt("ready"), color: "var(--teal)" },
-      { lab: "Sent", n: cnt("sent") + cnt("replied"), color: "var(--gray)" },
-      { lab: "Replied", n: cnt("replied"), color: "var(--purple)" },
+      { lab: "Open", n: jc("open"), color: "var(--teal)" },
+      { lab: "Likely filled", n: jc("filled"), color: "var(--amber)" },
+      { lab: "Expired", n: jc("expired"), color: "var(--red)" },
+      { lab: "No position", n: jc("none"), color: "var(--gray)" },
     ];
-    document.getElementById("pipeline").innerHTML = stages.map(s =>
-      `<div class="stage"><span>${s.lab}</span><span style="font-weight:600">${s.n}</span></div>
-       <div class="bar"><div style="width:${Math.round(s.n/total*100)}%;background:${s.color}"></div></div>`).join("");
+    document.getElementById("pipeline").innerHTML = stages.map(x =>
+      `<div class="stage"><span>${x.lab}</span><span style="font-weight:600">${x.n}</span></div>
+       <div class="bar"><div style="width:${Math.round(x.n/total*100)}%;background:${x.color}"></div></div>`).join("");
 
-    const blocked = cnt("blocked");
+    const waiting = s.filter(x => x.job === "open" && (x.reach === "identified" || x.reach === "nostart")).length;
     document.getElementById("pipeline-note").textContent =
-      blocked > 0 ? `${blocked} contact(s) blocked pending more info.` : "All contacts identified — campaign fully unblocked.";
+      `${jc("open")} open positions · ${waiting} open with outreach still to start.`;
 
-    document.getElementById("contacts").innerHTML = editing ? editView(c) : readView(c);
+    document.getElementById("schools").innerHTML = editing ? editView(s) : readView(s);
   }
 
-  function readView(c) {
-    return c.map(x => {
-      const st = STATUS[x.status] || STATUS.ready;
+  function readView(s) {
+    return s.map(x => {
+      const j = JOB[x.job] || JOB.none, r = REACH[x.reach] || REACH.nostart;
+      const name = x.link ? `<a href="${esc(x.link)}" target="_blank" rel="noopener">${esc(x.school)} ↗</a>` : esc(x.school);
       return `<div class="row">
         <div class="info-col">
-          <p class="nm">${esc(x.name)}</p>
-          <p class="meta">${esc(x.inst)} · ${esc(x.email)}</p>
+          <p class="nm">${name}</p>
+          <p class="meta">${x.contact && x.contact !== "—" ? "Contact: " + esc(x.contact) + " · " : ""}${esc(x.req)}</p>
         </div>
-        ${x.warm ? '<span class="warm"><i>●</i> Warm</span>' : ''}
-        <span class="pill ${st.cls}">${st.label}</span>
+        <div class="badges">
+          <span class="pill ${j.cls}">${j.label}</span>
+          <span class="pill ${r.cls}">${r.label}</span>
+        </div>
       </div>`;
     }).join("");
   }
 
-  function editView(c) {
-    const opts = (sel) => Object.entries(STATUS).map(([k, v]) =>
-      `<option value="${k}" ${k === sel ? "selected" : ""}>${v.label}</option>`).join("");
-    return c.map((x, i) => `<div class="editrow">
-      <input class="f full" value="${esc(x.name)}" placeholder="Name" oninput="upd(${i},'name',this.value)">
-      <input class="f full" value="${esc(x.inst)}" placeholder="Institution / role" oninput="upd(${i},'inst',this.value)">
-      <input class="f" value="${esc(x.email)}" placeholder="Email" oninput="upd(${i},'email',this.value)">
-      <select class="f" onchange="upd(${i},'status',this.value)">${opts(x.status)}</select>
-      <div class="controls">
-        <label style="font-size:13px;color:var(--text-2);"><input type="checkbox" ${x.warm ? "checked" : ""} onchange="upd(${i},'warm',this.checked)"> Warm contact</label>
-        <button class="btn danger" style="margin-left:auto" onclick="removeContact(${i})">Remove</button>
-      </div>
+  function editView(s) {
+    const opt = (obj, sel) => Object.entries(obj).map(([k, v]) => `<option value="${k}" ${k === sel ? "selected" : ""}>${v.label}</option>`).join("");
+    return s.map((x, i) => `<div class="editrow">
+      <div class="full">${esc(x.school)} <span style="color:var(--text-3);font-weight:400">(${esc(x.abbr)})</span></div>
+      <input class="f" value="${esc(x.contact)}" placeholder="Contact" oninput="upd(${i},'contact',this.value)">
+      <input class="f" value="${esc(x.req)}" placeholder="Requirements" oninput="upd(${i},'req',this.value)">
+      <select class="f" onchange="upd(${i},'job',this.value)">${opt(JOB, x.job)}</select>
+      <select class="f" onchange="upd(${i},'reach',this.value)">${opt(REACH, x.reach)}</select>
     </div>`).join("");
   }
 
-  function upd(i, field, val) { state.contacts[i][field] = val; save(); if (field !== "name" && field !== "inst" && field !== "email") render(); else renderMetricsOnly(); }
-  function renderMetricsOnly() { const ed = editing; editing = false; render(); editing = ed; document.getElementById("contacts").innerHTML = editView(state.contacts); }
-
-  function addContact() {
-    state.contacts.push({ name: "", inst: "", email: "", warm: false, status: "ready" });
-    save(); render();
+  function upd(i, field, val) {
+    state.schools[i][field] = val; save();
+    if (field === "job" || field === "reach") render();
+    else { document.getElementById("metrics").innerHTML = ""; renderMetrics(); }
   }
-  function removeContact(i) { state.contacts.splice(i, 1); save(); render(); }
+  function renderMetrics() { const e = editing; editing = false; render(); editing = e; document.getElementById("schools").innerHTML = editView(state.schools); }
 
   function toggleEdit() {
     editing = !editing;
     document.getElementById("editToggle").textContent = editing ? "Done editing" : "Edit dashboard";
     document.getElementById("editToggle").classList.toggle("primary", !editing);
-    ["addBtn", "publishBtn", "resetBtn", "editHint"].forEach(id => document.getElementById(id).classList.toggle("hidden", !editing));
+    ["publishBtn", "resetBtn", "editHint"].forEach(id => document.getElementById(id).classList.toggle("hidden", !editing));
     if (!editing) save();
     render();
   }
 
   function resetAll() {
     if (!confirm("Discard your edits and restore the original published version?")) return;
-    localStorage.removeItem(KEY);
-    state = JSON.parse(JSON.stringify(DEFAULTS));
-    render();
+    localStorage.removeItem(KEY); state = JSON.parse(JSON.stringify(DEFAULTS)); render();
   }
 
   function publish() {
-    const data = JSON.stringify(state.contacts, null, 2);
-    navigator.clipboard.writeText(data).then(() => {
-      alert("Copied your updated contacts to the clipboard.\n\nTo make these changes visible to everyone with the link:\nPaste it to Claude and say \"publish my changes\" — or edit index.html on GitHub.");
-    }, () => {
-      prompt("Copy this, paste it to Claude, and say \"publish my changes\":", data);
-    });
+    const data = JSON.stringify(state.schools, null, 2);
+    navigator.clipboard.writeText(data).then(
+      () => alert("Copied your updated school list to the clipboard.\n\nTo make these changes visible to everyone with the link:\nPaste it to Claude and say \"publish my changes\" — or edit index.html on GitHub."),
+      () => prompt("Copy this, paste it to Claude, and say \"publish my changes\":", data));
   }
 
   function esc(s) { return String(s).replace(/[&<>"]/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[m])); }
